@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import './FilterBar.css'
 
+
 function FilterBar({ filter, onFilterChange, movies }) {
   const [genres, setGenres] = useState([])
 
