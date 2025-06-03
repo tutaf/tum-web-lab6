@@ -31,6 +31,7 @@ class ApiService {
     const url = `${API_BASE_URL}${endpoint}`
     const config = {
       headers: this.getHeaders(),
+      mode: 'cors',
       ...options
     }
 
