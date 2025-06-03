@@ -4,13 +4,13 @@ A basic react app to track movies you want to watch, are watching or have alread
 
 ## Features
 
+- 3 roles - visitor, user, admin
 - add movies with title, director, year, genre, rating
 - 3 status types: want to watch, watching, watched
 - search and filter by status/genre
 - light/dark theme toggle
 - grid and list view modes
-- stores everything in browser localStorage
-- works offline
+- relies on backend API
 
 ## Setup
 
@@ -18,9 +18,3 @@ A basic react app to track movies you want to watch, are watching or have alread
 npm install
 npm run dev
 ```
-
-## built with
-
-- react + vite
-- vanilla css
-- localStorage for data

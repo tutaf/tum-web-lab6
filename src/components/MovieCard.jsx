@@ -13,9 +13,8 @@ const STATUS_COLORS = {
   'watched': '#27ae60'
 }
 
-function MovieCard({ movie, viewMode, onUpdate, onDelete }) {
+function MovieCard({ movie, viewMode, onUpdate, onDelete, onToggleFavorite }) {
   const [showActions, setShowActions] = useState(false)
-  const [isEditing, setIsEditing] = useState(false)
 
   const handleStatusChange = (newStatus) => {
     onUpdate(movie.id, { status: newStatus })
@@ -23,7 +22,11 @@ function MovieCard({ movie, viewMode, onUpdate, onDelete }) {
   }
 
   const handleFavoriteToggle = () => {
-    onUpdate(movie.id, { isFavorite: !movie.isFavorite })
+    if (onToggleFavorite) {
+      onToggleFavorite(movie.id)
+    } else {
+      onUpdate(movie.id, { is_favorite: !movie.is_favorite })
+    }
   }
 
   const handleRatingChange = (e) => {
@@ -48,6 +51,10 @@ function MovieCard({ movie, viewMode, onUpdate, onDelete }) {
     return new Date(dateString).toLocaleDateString()
   }
 
+  // Handle both API field names (is_favorite, date_added) and old field names
+  const isFavorite = movie.is_favorite || movie.isFavorite
+  const dateAdded = movie.date_added || movie.dateAdded
+
   if (viewMode === 'list') {
     return (
       <div className="movie-card list-view">
@@ -55,7 +62,7 @@ function MovieCard({ movie, viewMode, onUpdate, onDelete }) {
           <div className="movie-header">
             <h3 className="movie-title">
               {movie.title}
-              {movie.isFavorite && <span className="favorite-icon">⭐</span>}
+              {isFavorite && <span className="favorite-icon">⭐</span>}
             </h3>
             <div className="movie-meta">
               <span className="movie-year">{movie.year}</span>
@@ -99,9 +106,9 @@ function MovieCard({ movie, viewMode, onUpdate, onDelete }) {
             <button
               className="btn btn-icon"
               onClick={handleFavoriteToggle}
-              title={movie.isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+              title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
             >
-              {movie.isFavorite ? '❤️' : '🤍'}
+              {isFavorite ? '❤️' : '🤍'}
             </button>
             
             <div className="dropdown">
@@ -143,7 +150,7 @@ function MovieCard({ movie, viewMode, onUpdate, onDelete }) {
         <div className="poster-placeholder">
           
         </div>
-        {movie.isFavorite && (
+        {isFavorite && (
           <div className="favorite-badge">⭐</div>
         )}
         <div 
@@ -175,15 +182,15 @@ function MovieCard({ movie, viewMode, onUpdate, onDelete }) {
         )}
         
         <div className="movie-footer">
-          <small className="date-added">Added {formatDate(movie.dateAdded)}</small>
+          <small className="date-added">Added {formatDate(dateAdded)}</small>
           
           <div className="card-actions">
             <button
               className="btn btn-icon"
               onClick={handleFavoriteToggle}
-              title={movie.isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+              title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
             >
-              {movie.isFavorite ? '❤️' : '🤍'}
+              {isFavorite ? '❤️' : '🤍'}
             </button>
             
             <div className="dropdown">

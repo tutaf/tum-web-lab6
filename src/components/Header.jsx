@@ -1,6 +1,9 @@
+import { useAuth } from '../contexts/AuthContext'
 import './Header.css'
 
 function Header({ theme, onThemeToggle, onAddMovie, viewMode, onViewModeChange }) {
+  const { user, logout } = useAuth()
+
   return (
     <header className="header">
       <div className="header-content">
@@ -8,6 +11,14 @@ function Header({ theme, onThemeToggle, onAddMovie, viewMode, onViewModeChange }
           <h1 className="header-title">
             Movie Collection Manager
           </h1>
+          {user && (
+            <div className="user-info">
+              <span className="username">{user.username}</span>
+              <span className={`role-badge ${user.role.toLowerCase()}`}>
+                {user.role}
+              </span>
+            </div>
+          )}
         </div>
         
         <div className="header-right">
@@ -41,6 +52,14 @@ function Header({ theme, onThemeToggle, onAddMovie, viewMode, onViewModeChange }
             title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
           >
             {theme === 'light' ? '🌙' : '☀️'}
+          </button>
+          
+          <button
+            className="btn btn-secondary logout-btn"
+            onClick={logout}
+            title="Logout"
+          >
+            Logout
           </button>
         </div>
       </div>
